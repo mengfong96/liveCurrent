@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Energy Monitoring(Graph)</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- import plugin script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    
+  </head>
+  <body align="center">
+
+    <div id="title" >
+      <h1>TAN LING YEE: FYP 2019/2020</h2>
+      <p>Non Intrusive Appliances Monitoring On Smart Meter Using Logistic Regression</p>
+      <div id="btnGroup">
+        <button id="btnStart">Start</button>
+        <button id="btnCancel">Cancel</button>
+      </div>
+      <div>
+        <p id="date"></p>
+        <p id="dateTime"></p>
+        <p id="voltMeter">{meter value}</p>
+      </div>
+      <div>
+        <h1>Testing value</h1>
+          <script>'{{ legends }}'</script>
+        
+      </div>
+      <div id="graphCanvas" align="center">
+        <canvas id="myChart" width="1200" height="450"></canvas>
+        <script> 
+          // Global parameters:
+          // do not resize the chart canvas when its container does (keep at 600x400px)
+          Chart.defaults.global.responsive = false;
+      
+          // define the chart data
+          var chartData = {
+            labels : [{% for item in labels %} 
+                "{{item}}",
+                {% endfor %}],
+            datasets : [{
+                label: '{{ legend }}',
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: "rgba(75,192,192,0.4)",
+                borderColor: "rgba(75,192,192,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data : [{% for item in values %}
+                    {{item}},
+                    {% endfor %}],
+                spanGaps: false
+              }]
+          }
+      
+          // get chart canvas
+          var ctx = document.getElementById("myChart").getContext("2d");
+      
+          // create the chart using the chart canvas
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+          });
+      
+        </script>
+      </div>
+      <div id=subMeter>
+        <strong>Submeter 1</strong> |
+        <strong>Submeter 2</strong> |
+        <strong>Submeter 3</strong>
+      </div>
+    </div>
+    <br>
+    <br> 
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src={{ url_for('static', filename='app.js')}}></script>
+  </body>
+</html>
