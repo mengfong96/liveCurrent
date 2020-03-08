@@ -11,16 +11,10 @@ $(document).ready( function() {
     });
 
     setInterval(function(){myTimer()},1000);
-    setInterval(function(){updateValues()},1000); 
-
+    
 }); 
 
 var startTime = new Date(); 
-
-function updateValues(){ 
-
-alert("load me? ")
-}
 
 function myTimer(){ 
     var myTime = new Date(2020,1,1,12,00,00,00); 
@@ -43,8 +37,4 @@ function myTimer(){
 
     var outputDate = startTime.toLocaleDateString(); 
     document.getElementById("date").innerHTML = outputDate;
-
 }
-
-
-

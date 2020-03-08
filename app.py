@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from flask import request
 import pickle
 import pandas as pd
@@ -34,12 +34,12 @@ def get_matched_row(user_time):
     features = np.concatenate([features, rp[:, 1:]], axis=-1)
     return features
 
-def get_real_power(power):
-    user_time = pd.date_range('17-12-2006', periods = 720, freq ='T') 
-    index_user_time = df.loc[user_time]
+# def get_real_power(power):
+#     user_time = pd.date_range('17-12-2006', periods = 720, freq ='T') 
+#     index_user_time = df.loc[user_time]
     
-    power_feature = index_user_time[["Real Power"]].values
-    return power_feature
+#     power_feature = index_user_time[["Real Power"]].values
+#     return power_feature
 
 def get_cursor_point(x_point):
     user_time = pd.date_range('17-12-2006', periods = 720, freq ='T') 
@@ -64,12 +64,6 @@ def html_table():
     
     return render_template('Energy_Consumption_Graph.html', values=values, labels=labels, legend=legend)
 
-@app.route('/chart-data')
-def chart_data(): 
-
-    df
-
-    return Response(generate_random_data(), mimetype='text/event-stream')
     
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

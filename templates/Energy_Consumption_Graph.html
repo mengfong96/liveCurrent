@@ -25,8 +25,8 @@
         <p id="voltMeter">{meter value}</p>
       </div>
       <div>
-        <h1>Testing value</h1>
-          <script>'{{ legends }}'</script>
+        <h1><script>'{{ legends }}'</script></h1>
+          
         
       </div>
       <div id="graphCanvas" align="center">
@@ -66,16 +66,17 @@
                 spanGaps: false
               }]
           }
-      
+
           // get chart canvas
           var ctx = document.getElementById("myChart").getContext("2d");
       
           // create the chart using the chart canvas
+
           var myChart = new Chart(ctx, {
             type: 'line',
             data: chartData,
           });
-      
+            
         </script>
       </div>
       <div id=subMeter>
