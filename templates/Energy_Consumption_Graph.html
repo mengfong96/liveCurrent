@@ -22,7 +22,7 @@
       <div>
         <p id="date"></p>
         <p id="dateTime"></p>
-        <p id="voltMeter">{meter value}</p>
+        <p id="voltMeter">11111</p>
       </div>
       <div>
         <h1><script>'{{ legends }}'</script></h1>
@@ -30,55 +30,44 @@
         
       </div>
       <div id="graphCanvas" align="center">
-        <canvas id="myChart" width="1200" height="450"></canvas>
+        <!--canvas id="myChart" width="1200" height="450"></canvas-->
         <script> 
-          // Global parameters:
-          // do not resize the chart canvas when its container does (keep at 600x400px)
-          Chart.defaults.global.responsive = false;
-      
-          // define the chart data
-          var chartData = {
-            labels : [{% for item in labels %} 
-                "{{item}}",
-                {% endfor %}],
-            datasets : [{
-                label: '{{ legend }}',
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(75,192,192,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data : [{% for item in values %}
-                    {{item}},
-                    {% endfor %}],
-                spanGaps: false
-              }]
-          }
+          window.onload = function() {
+            var dataPoints = [];
+            var chart;
 
-          // get chart canvas
-          var ctx = document.getElementById("myChart").getContext("2d");
-      
-          // create the chart using the chart canvas
-
-          var myChart = new Chart(ctx, {
-            type: 'line',
-            data: chartData,
-          });
-            
+            $.getJSON("../graph.json", function(data) {  
+                $.each(data, function(key, value){
+                    dataPoints.push({x: value[0], y: value[1]});
+                });
+                chart = new CanvasJS.Chart("chartContainer",{
+                    title:{
+                        text:"Live Chart with dataPoints from External JSON"
+                    },
+                    data: [{
+                        type: "line",
+                        dataPoints : dataPoints,
+                    }]
+                });
+                chart.render();
+                updateChart();
+            });
+            function updateChart() {
+            $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + (dataPoints.length + 1) + "&ystart=" + (dataPoints[dataPoints.length - 1].y) + "&length=1&type=json", function(data) {
+                $.each(data, function(key, value) {
+                    dataPoints.push({
+                    x: parseInt(value[0]),
+                    y: parseInt(value[1])
+                    });
+                });
+                chart.render();
+                setTimeout(function(){updateChart()}, 1000);
+            });
+            }
+        }
         </script>
       </div>
+      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
       <div id=subMeter>
         <strong>Submeter 1</strong> |
         <strong>Submeter 2</strong> |
@@ -88,7 +77,8 @@
     <br>
     <br> 
 
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script type="text/javascript" src={{ url_for('static', filename='app.js')}}></script>
   </body>
 </html>
