@@ -10,7 +10,7 @@ $(document).ready( function() {
         //alert("You have click 9 the Cancel button...");
     });
 
-    setInterval(function(){myTimer()},1000);
+    
     
 }); 
 

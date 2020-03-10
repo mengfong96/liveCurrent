@@ -6,7 +6,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-df = pd.read_csv("Fyp Demo.csv")
+df = pd.read_csv("fyp_demo.csv")
 df["Datetime"] = pd.to_datetime(df["Date"] + " " + df["Time"])
 df = df.set_index("Datetime")
 log_reg1 = pickle.load(open("log_reg1(ML).pkl", "rb"))
@@ -61,8 +61,7 @@ def toCSV(s1,s2,s3):
 
 @app.route('/')
 def html_table():
-    
-    return render_template('Energy_Consumption_Graph.html')
+    return render_template('energy_consumption.html')
 
 # @app.route('/')
 # def html_table():
