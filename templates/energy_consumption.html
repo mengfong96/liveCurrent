@@ -31,50 +31,40 @@
         <!--canvas id="myChart" width="1200" height="450"></canvas-->
         <script>
           var chart; 
-          var dataPoints = []; 
+          var dps = []; 
+          
 
-          window.onload = function() {
+          window.onload=function(){
+            dps = [{ y: 0 }]; 
 
-            drawChart(); 
-            
-            function loadData(){ 
-              var gdata = getGData(); 
-              var dp = []; 
-              for(var i=0; i<gdata.length; i++){ 
-                var value = gdata[i]; 
-                dp.push({y: value[1], label: value[0]});
-              }
-              return dp;
-            }
-
-            function drawChart(){ 
-              dataPoints = loadData(); //[{y:0, label: "12:00 AM"}]; 
-               
-              chart = new CanvasJS.Chart("chartContainer",{
+            chart = new CanvasJS.Chart("chartContainer",{
                 title:{
-                  text:"Live Chart with dataPoints from External JSON"
+                  text:"Power Consumption"
+                },
+                axisY:{
+                  includeZero: false
                 },
                 data: [{
                   type: "line",
-                  dataPoints : dataPoints,
+                  dataPoints : dps,
                 }]
               });
-              chart.render();
-              //updateChart();
-            }
-                    
-          //function updateChart() {
-          //     var data = loadData(); 
-            
-          //     $.each(data, function(key, value) {
-          //       dataPoints.push({y: value[1], label: value[0]});
 
-          //     chart.render();
-          //     setTimeout(function(){updateChart()}, 1000);
-          //   });
-          // } 
-          setInterval(function(){myTimer()},1000);
-        }
+            chart.render();
+
+            var gdata;
+            var int=0; 
+            var updateInterval = 1000;
+
+            function updateChart() {
+              gdata = getGData();
+              var value = gdata[int]; 
+              dps.push({y: value, label: "1200AM"});
+              chart.render();
+              int++; 
+            } 
+            setInterval(function () { updateChart() }, updateInterval);
+          }; 
         </script>
       
       <div id="chartContainer" style="height: 300px; width: 100%;"></div>
