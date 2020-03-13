@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template
 from flask import request
 import pickle
 import pandas as pd
@@ -48,7 +48,7 @@ def get_prediction(matched_row):
     return s1, s2, s3
 
 def get_matched_row(user_time):
-    user_time = pd.date_range('17-12-2006', periods = 720, freq ='T') 
+    user_time = pd.date_range('17-12-2006', periods = 1440, freq ='T') 
     index_user_time = df.loc[user_time]
     
     features = index_user_time[["Power Factor", "Voltage", "Current"]].values

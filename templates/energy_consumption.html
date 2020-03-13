@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+  <body style="background-color:Azure">
   <head>
     <title>Energy Monitoring(Graph)</title>
     <meta charset="utf-8">
@@ -22,9 +23,10 @@
         <button id="btnCancel">Cancel</button>
       </div>
       <div>
-        <p id="date"></p>
-        <p id="dateTime"></p>
-        <p id="voltMeter">Volt Meter Value</p>
+        <br></br>
+        <p1>Date : </p1> <p1 id="date"></p1> <br></br>
+        <p2>Time (24Hours) : </p2> <p2 id="dateTime"></p2> <br></br>
+        <p3>Power Consumption : </p3> <p3 id="powerMeter"></p3> <br></br>
       </div>
       <div>
       
@@ -35,13 +37,16 @@
           
 
           window.onload=function(){
-            dps = [{ y: 0 }]; 
+            // dps = [{ y: 0 }]; 
 
             chart = new CanvasJS.Chart("chartContainer",{
                 title:{
-                  text:"Power Consumption"
+                  text:"Daily Power Consumption"
                 },
                 axisY:{
+                  includeZero: false
+                },
+                axisX:{
                   includeZero: false
                 },
                 data: [{
@@ -53,26 +58,37 @@
             chart.render();
 
             var gdata;
+            var gtime;
             var int=0; 
             var updateInterval = 1000;
-
+            
             function updateChart() {
-              gdata = getGData();
-              var value = gdata[int]; 
-              dps.push({ y: value });
+              gdata = getData();
+              gtime = getTime();
+              var power_value = gdata[int]; 
+              var time_value = gtime[int];
+              dps.push({label: time_value , y: power_value });
               chart.render();
               int++; 
             } 
             setInterval(function () { updateChart() }, updateInterval);
           }; 
+
+
+      
+
+        //Value Shown On Top
+        setInterval(function(){myTimer()},1000);
+        setInterval(function (){meterValue()},1000);
+
         </script>
       
       <div id="chartContainer" style="height: 300px; width: 100%;"></div>
       <div id=subMeter>
         <br>
-        <strong>Submeter 1</strong> |
-        <strong>Submeter 2</strong> |
-        <strong>Submeter 3</strong>
+        <strong>Microwave Oven (Submeter 1)</strong> |
+        <strong>Washing Machine (Submeter 2)</strong> |
+        <strong>Air-Conditioner (Submeter 3)</strong>
       </div>
     </div>
     <br>
