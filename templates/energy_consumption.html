@@ -33,23 +33,35 @@
         var dps = []; 
           
         window.onload=function(){
-        // dps = [{ y: 0 }]; 
+        document.getElementById("btnCancel").disabled = true;  
+        var start = document.getElementById("btnGroup");
+        
 
-        chart = new CanvasJS.Chart("chartContainer",{
-            title:{
-              text:"Daily Power Consumption"
-            },
-            axisY:{
-              includeZero: false
-            },
-            axisX:{
-              includeZero: false
-            },
-            data: [{
-              type: "line",
-              dataPoints : dps,
-            }]
-        });
+        start.addEventListener('click', function(evt){ 
+
+          document.getElementById("btnCancel").disabled = true;
+          var target = evt.target; 
+          if(target.id === "btnStart")
+          {
+
+            document.getElementById("btnStart").disabled = true; 
+            document.getElementById("btnCancel").disabled = false; 
+
+            chart = new CanvasJS.Chart("chartContainer",{
+              title:{
+                text:"Daily Power Consumption"
+              },
+              axisY:{
+                includeZero: false
+              },
+              axisX:{
+                includeZero: false
+              },
+              data: [{
+                type: "line",
+                dataPoints : dps,
+              }]
+            });
 
             chart.render();
 
@@ -57,7 +69,8 @@
             var gtime;
             var int=0; 
             var updateInterval = 1000;
-            
+            var intervalGraph, intervalTime, intervalMeter, intervalSubMeter;
+                
             function updateChart() {
               gdata = getData();
               gtime = getTime();
@@ -67,14 +80,45 @@
               chart.render();
               int++; 
             } 
-            setInterval(function () { updateChart() }, updateInterval);
-          }; 
 
-        //Value Shown On Top
-        setInterval(function(){myTimer()},1000);
-        setInterval(function(){meterValue()},1000);
-        setInterval(function(){setSubmeterStatus()},1000);
-        </script>
+            // function stopInterval(){ 
+
+            //   clearInterval(intervalGraph); 
+            //   clearInterval(intervalTime); 
+            //   clearInterval(intervalMeter); 
+            //   clearInterval(intervalSubMeter); 
+            // }
+
+            intervalGraph = setInterval(function () { updateChart() }, updateInterval);
+            //Value Shown On Top
+            intervalTime = setInterval(function(){myTimer()},1000);
+            intervalMeter = setInterval(function(){meterValue()},1000);
+            intervalSubMeter = setInterval(function(){setSubmeterStatus()},1000);
+          } 
+          else if(target.id === "btnCancel")
+          { 
+            document.getElementById("btnStart").disabled = false; 
+            document.getElementById("btnCancel").disabled = true;
+            
+          }
+          else 
+          { 
+
+            // document.getElementById("btnStart").disabled = false; 
+            // document.getElementById("btnCancel").disabled = true;
+            // alert("Please click the start button!"); 
+
+          }
+
+        });
+        
+        
+        
+      }; 
+
+      
+        
+      </script>
       
       <div id="chartContainer" style="height: 300px; width: 100%;"></div>
       <div id=subMeter>
