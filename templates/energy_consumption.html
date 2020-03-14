@@ -23,37 +23,33 @@
         <button id="btnCancel">Cancel</button>
       </div>
       <div>
-        <br></br>
-        <p1>Date : </p1> <p1 id="date"></p1> <br></br>
-        <p2>Time (24Hours) : </p2> <p2 id="dateTime"></p2> <br></br>
+        <br> 
+        <p1>Date : </p1> <p1 id="date"></p1> | <p2>Time (24Hours) : </p2> <p2 id="dateTime"></p2> <br></br>
         <p3>Power Consumption : </p3> <p3 id="powerMeter"></p3> <br></br>
       </div>
       <div>
-      
-        <!--canvas id="myChart" width="1200" height="450"></canvas-->
-        <script>
-          var chart; 
-          var dps = []; 
+      <script>
+        var chart; 
+        var dps = []; 
           
+        window.onload=function(){
+        // dps = [{ y: 0 }]; 
 
-          window.onload=function(){
-            // dps = [{ y: 0 }]; 
-
-            chart = new CanvasJS.Chart("chartContainer",{
-                title:{
-                  text:"Daily Power Consumption"
-                },
-                axisY:{
-                  includeZero: false
-                },
-                axisX:{
-                  includeZero: false
-                },
-                data: [{
-                  type: "line",
-                  dataPoints : dps,
-                }]
-              });
+        chart = new CanvasJS.Chart("chartContainer",{
+            title:{
+              text:"Daily Power Consumption"
+            },
+            axisY:{
+              includeZero: false
+            },
+            axisX:{
+              includeZero: false
+            },
+            data: [{
+              type: "line",
+              dataPoints : dps,
+            }]
+        });
 
             chart.render();
 
@@ -74,21 +70,22 @@
             setInterval(function () { updateChart() }, updateInterval);
           }; 
 
-
-      
-
         //Value Shown On Top
         setInterval(function(){myTimer()},1000);
-        setInterval(function (){meterValue()},1000);
-
+        setInterval(function(){meterValue()},1000);
+        setInterval(function(){setSubmeterStatus()},1000);
         </script>
       
       <div id="chartContainer" style="height: 300px; width: 100%;"></div>
       <div id=subMeter>
-        <br>
-        <strong>Microwave Oven (Submeter 1)</strong> |
-        <strong>Washing Machine (Submeter 2)</strong> |
-        <strong>Air-Conditioner (Submeter 3)</strong>
+        <div>
+          <img src="https://hnsgsfp.imgix.net/9/images/detailed/24/Panasonic_NN-CT655_27L_Microwave_Grill_Oven.png?fit=fill&bg=0FFF&w=785&h=441&auto=format,compress" alt="Microwave" style="height: 8%; width: 8%;">
+          <button id="status_microwave" disabled>.</button>
+          <img src="https://www.senheng.com.my/media/catalog/product/cache/926507dc7f93631a094422215b778fe0/e/l/ele-ewf7525eqwa_1.jpg" alt="Washing Machine" style="height: 8%; width: 8%;">
+          <button id="status_washing" disabled>.</button>
+          <img src="https://www.senheng.com.my/media/catalog/product/cache/926507dc7f93631a094422215b778fe0/s/h/shp-aha9wcd_1.jpg" alt="Air-Conditioner" style="height: 8%; width: 8%;">
+          <button id="status_aircon" disabled>.</button>
+        </div>
       </div>
     </div>
     <br>

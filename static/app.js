@@ -39,6 +39,7 @@ function myTimer(){
 
     var outputDate = startTime.toLocaleDateString(); 
     document.getElementById("date").innerHTML = outputDate;
+    
 }
 var gdata 
 function meterValue(){
@@ -51,4 +52,47 @@ function meterValue(){
 
     var power_meter = power + " Watt";
     document.getElementById("powerMeter").innerHTML = power_meter;
-  }
+}
+
+var sub; 
+function setSubmeterStatus(){ 
+    
+    sub=getSubmeterV(); 
+    var subValue = sub[i]; 
+    var s1 = subValue[0]; 
+    var s2 = subValue[1]; 
+    var s3 = subValue[2]; 
+    
+    switch(s1){ 
+        case 1: 
+            document.getElementById("status_microwave").style.backgroundColor= "green";
+            break; 
+        case 0: 
+            document.getElementById("status_microwave").style.backgroundColor= "red";
+            break; 
+        default: 
+            break; 
+    }
+
+    switch(s2){ 
+        case 1: 
+            document.getElementById("status_washing").style.backgroundColor= "green";
+            break; 
+        case 0: 
+            document.getElementById("status_washing").style.backgroundColor= "red";
+            break; 
+        default: 
+            break; 
+    }
+
+    switch(s3){ 
+        case 1: 
+            document.getElementById("status_aircon").style.backgroundColor= "green";
+            break; 
+        case 0: 
+            document.getElementById("status_aircon").style.backgroundColor= "red";
+            break; 
+        default: 
+            break; 
+    }
+}
