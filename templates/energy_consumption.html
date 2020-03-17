@@ -39,15 +39,7 @@
 
         start.addEventListener('click', function(evt){ 
 
-          document.getElementById("btnCancel").disabled = true;
-          var target = evt.target; 
-          if(target.id === "btnStart")
-          {
-
-            document.getElementById("btnStart").disabled = true; 
-            document.getElementById("btnCancel").disabled = false; 
-
-            chart = new CanvasJS.Chart("chartContainer",{
+          chart = new CanvasJS.Chart("chartContainer",{
               title:{
                 text:"Daily Power Consumption"
               },
@@ -69,7 +61,7 @@
             var gtime;
             var int=0; 
             var updateInterval = 1000;
-            var intervalGraph, intervalTime, intervalMeter, intervalSubMeter;
+            
                 
             function updateChart() {
               gdata = getData();
@@ -78,28 +70,29 @@
               var time_value = gtime[int];
               dps.push({label: time_value , y: power_value });
               chart.render();
-              int++; 
+              int++;  
             } 
+          document.getElementById("btnCancel").disabled = true;
+          
+          var target = evt.target; 
+          if(target.id === "btnStart")
+          {
 
-            // function stopInterval(){ 
-
-            //   clearInterval(intervalGraph); 
-            //   clearInterval(intervalTime); 
-            //   clearInterval(intervalMeter); 
-            //   clearInterval(intervalSubMeter); 
-            // }
+            document.getElementById("btnStart").disabled = true; 
+            document.getElementById("btnCancel").disabled = false; 
 
             intervalGraph = setInterval(function () { updateChart() }, updateInterval);
             //Value Shown On Top
-            intervalTime = setInterval(function(){myTimer()},1000);
-            intervalMeter = setInterval(function(){meterValue()},1000);
-            intervalSubMeter = setInterval(function(){setSubmeterStatus()},1000);
+            intervalTime = setInterval(function(){time()},updateInterval);
+            intervalMeter = setInterval(function(){meterValue()},updateInterval);
+            intervalSubMeter = setInterval(function(){setSubmeterStatus()},updateInterval);
+
           } 
           else if(target.id === "btnCancel")
           { 
-            document.getElementById("btnStart").disabled = false; 
-            document.getElementById("btnCancel").disabled = true;
-            
+              document.getElementById("btnStart").disabled = false; 
+              document.getElementById("btnCancel").disabled = true;
+              stopInterval(); 
           }
           else 
           { 
@@ -111,13 +104,7 @@
           }
 
         });
-        
-        
-        
-      }; 
-
-      
-        
+      };     
       </script>
       
       <div id="chartContainer" style="height: 300px; width: 100%;"></div>

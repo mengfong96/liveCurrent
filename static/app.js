@@ -1,64 +1,43 @@
-$(document).ready( function() { 
-
-    $("#btnStart").click(function(){ 
-        //make it event lister
-        //alert("You have click 9 the Start button...");
-    });
-
-    $("#btnCancel").click(function(){ 
-        //make it event lister
-        //alert("You have click 9 the Cancel button...");
-    });
-
-    
-    
-}); 
-
 var startTime = new Date(); 
-let i=0; 
+let timeCounter=0; 
 
-
-function myTimer(){ 
-    var myTime = new Date(2020,1,1,00,00,00,00); 
-    var diff = new Date() - startTime; 
-
-    myTime.setMilliseconds(myTime.getMilliseconds()+ diff); 
-
-    var hours=myTime.getHours();
-    var minutes=myTime.getMinutes();
-    var seconds=myTime.getSeconds();
+var gtime
+function time(){
+    var clock = [];
+    gtime = getTime();
     
-    if(minutes < 10){ 
-        minutes="0" + minutes; 
-    }
-    if(seconds < 10) { 
-        seconds="0" + seconds; 
-    }
-    var outputDateTime = minutes+":"+seconds; 
-    document.getElementById("dateTime").innerHTML = outputDateTime;  //d.toLocaleTimeString();
+    
+    var clock_value = gtime[timeCounter];
+    clock.push(clock_value);
+    timeCounter++;
+
+    var display_clock = clock;
+    document.getElementById("dateTime").innerHTML = display_clock;
 
     var outputDate = startTime.toLocaleDateString(); 
     document.getElementById("date").innerHTML = outputDate;
-    
 }
-var gdata 
+
+var gdata; 
+var meterCounter=0; 
 function meterValue(){
     var power = [];
     gdata = getData();
     
-    var power_value = gdata[i];
+    var power_value = gdata[meterCounter];
     power.push(power_value);
-    i++; 
+    meterCounter++; 
 
     var power_meter = power + " Watt";
     document.getElementById("powerMeter").innerHTML = power_meter;
 }
 
 var sub; 
+var subcounter=0; 
 function setSubmeterStatus(){ 
     
     sub=getSubmeterV(); 
-    var subValue = sub[i]; 
+    var subValue = sub[subcounter]; 
     var s1 = subValue[0]; 
     var s2 = subValue[1]; 
     var s3 = subValue[2]; 
@@ -95,5 +74,17 @@ function setSubmeterStatus(){
         default: 
             break; 
     }
+
+    subcounter++; 
 }
+
+var intervalGraph, intervalTime, intervalMeter, intervalSubMeter;
+
+function stopInterval(){ 
+    clearInterval(intervalGraph); 
+    clearInterval(intervalTime); 
+    clearInterval(intervalMeter); 
+    clearInterval(intervalSubMeter); 
+
+  }
 
