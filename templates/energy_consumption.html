@@ -24,7 +24,7 @@
       </div>
       <div>
         <br> 
-        <p1>Date : </p1> <p1 id="date"></p1> | <p2>Time (24Hours) : </p2> <p2 id="dateTime"></p2> <br></br>
+        <p1>Date : </p1> <p1 id="date"></p1> | <p2>Time : </p2> <p2 id="dateTime"></p2> <br></br>
         <p3>Power Consumption : </p3> <p3 id="powerMeter"></p3> <br></br>
       </div>
       <div>
@@ -33,7 +33,9 @@
         var dps = []; 
           
         window.onload=function(){
+        
         document.getElementById("btnCancel").disabled = true;  
+       
         var start = document.getElementById("btnGroup");
         
 
@@ -62,8 +64,14 @@
             var int=0; 
             var updateInterval = 1000;
             
+            //to refresh counter every time when start button is pressed after cancel
+            timeCounter = 0;
+            meterCounter = 0;
+            subcounter = 0;
+
+            
                 
-            function updateChart() {
+            function updateChart() { 
               gdata = getData();
               gtime = getTime();
               var power_value = gdata[int]; 
@@ -77,10 +85,9 @@
           var target = evt.target; 
           if(target.id === "btnStart")
           {
-
             document.getElementById("btnStart").disabled = true; 
             document.getElementById("btnCancel").disabled = false; 
-
+            
             intervalGraph = setInterval(function () { updateChart() }, updateInterval);
             //Value Shown On Top
             intervalTime = setInterval(function(){time()},updateInterval);

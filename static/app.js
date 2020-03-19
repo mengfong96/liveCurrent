@@ -1,5 +1,5 @@
 var startTime = new Date(); 
-let timeCounter=0; 
+let timeCounter; 
 
 var gtime
 function time(){
@@ -19,7 +19,7 @@ function time(){
 }
 
 var gdata; 
-var meterCounter=0; 
+var meterCounter; 
 function meterValue(){
     var power = [];
     gdata = getData();
@@ -33,7 +33,7 @@ function meterValue(){
 }
 
 var sub; 
-var subcounter=0; 
+var subcounter; 
 function setSubmeterStatus(){ 
     
     sub=getSubmeterV(); 
@@ -80,11 +80,12 @@ function setSubmeterStatus(){
 
 var intervalGraph, intervalTime, intervalMeter, intervalSubMeter;
 
+
 function stopInterval(){ 
     clearInterval(intervalGraph); 
     clearInterval(intervalTime); 
     clearInterval(intervalMeter); 
     clearInterval(intervalSubMeter); 
-
+    dps = [];
   }
 
